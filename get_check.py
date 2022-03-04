@@ -66,12 +66,7 @@ def get_check(check_photo_file_name: str):
         wait = WebDriverWait(driver, 30)
 
         driver.get("https://proverkacheka.com/")
-
-        print("Headless Chrome Initialized")
-        print(driver.get_window_size())
         driver.set_window_size(1920, 1080)
-        size = driver.get_window_size()
-        print(f"Window size: width = {size['width']} px, height = {size['height']} px")
 
         photo = wait.until(EC.presence_of_element_located(
             (By.XPATH, "/html/body/div/div[2]/div[1]/div[4]/div[2]/ul/li[3]/a")))
