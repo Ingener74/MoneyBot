@@ -97,6 +97,7 @@ def get_check(check_photo_file_name: str):
         file_name, _ = check_photo_file_name.split('.')
         with open(f"{file_name}.txt", 'w+') as error_file:
             error_file.write(format_exc())
+        driver.save_screenshot(f"{file_name}_screenshot.png")
 
     finally:
         if driver is not None:
