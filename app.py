@@ -60,7 +60,6 @@ def process_expense(json_file_name: str) -> Check:
             price = str(item['price'] / 100).replace('.', ',')
 
             check.purchases.append(Purchase(name, quantity, price, retailPlace, today_))
-            logger.info(f"{name}, {quantity}, {price}, {retailPlace}, {today_}")
 
     return check
 

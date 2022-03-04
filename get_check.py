@@ -56,6 +56,8 @@ def get_check(check_photo_file_name: str):
             "download.prompt_for_download": False,
             "safebrowsing.enabled": True
         })
+        options.add_argument('--headless')
+        options.add_argument('--disable-gpu')
 
         s = Service(os.environ['CHROMEDRIVER_EXE_PATH'])
 

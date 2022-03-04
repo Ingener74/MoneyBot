@@ -32,14 +32,17 @@ async def echo(message: types.Message):
 
         get_check(destination)
 
+        logger.info('Чек получен')
         await message.answer('Чек получен')
 
         check = process_expense('download/check.json')
 
+        logger.info(f"Чек обработан\n{check.purchase_list}")
         await message.answer(f"Чек обработан\n{check.purchase_list}")
 
         Purchase.save(check.date, check.purchases, purchase_config, CREDENTIAL_FILE, os.environ['MONEY_SPREEDSHEET'])
 
+        logger.info('Чек сохранён')
         await message.answer('Чек сохранён')
     except Exception:
         await message.answer(f"Произошла ошибка: {format_exc()}")
