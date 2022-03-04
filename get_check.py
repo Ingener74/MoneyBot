@@ -5,7 +5,7 @@ from time import sleep, perf_counter
 from traceback import format_exc
 
 from loguru import logger
-from selenium.webdriver import Chrome, ChromeOptions
+from selenium.webdriver import Chrome, ChromeOptions, ActionChains
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -69,6 +69,10 @@ def get_check(check_photo_file_name: str):
         photo = wait.until(EC.presence_of_element_located(
             (By.XPATH, "/html/body/div/div[2]/div[1]/div[4]/div[2]/ul/li[3]/a")))
         assert (photo is not None)
+
+        scroll_to_photo_action = ActionChains(driver)
+        scroll_to_photo_action.move_to_element(photo).perform()
+
         photo.click()
 
         select_file = wait.until(EC.presence_of_element_located(
