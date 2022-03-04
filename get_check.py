@@ -57,6 +57,7 @@ def get_check(check_photo_file_name: str):
             "safebrowsing.enabled": True
         })
         options.add_argument('--headless')
+        options.add_argument("window-size=1920,1080")
         options.add_argument('--disable-gpu')
 
         s = Service(os.environ['CHROMEDRIVER_EXE_PATH'])
@@ -66,12 +67,15 @@ def get_check(check_photo_file_name: str):
 
         driver.get("https://proverkacheka.com/")
 
+        print("Headless Chrome Initialized")
+        print(driver.get_window_size())
+        driver.set_window_size(1920, 1080)
+        size = driver.get_window_size()
+        print(f"Window size: width = {size['width']} px, height = {size['height']} px")
+
         photo = wait.until(EC.presence_of_element_located(
             (By.XPATH, "/html/body/div/div[2]/div[1]/div[4]/div[2]/ul/li[3]/a")))
         assert (photo is not None)
-
-        scroll_to_photo_action = ActionChains(driver)
-        scroll_to_photo_action.move_to_element(photo).perform()
 
         photo.click()
 
