@@ -1,6 +1,7 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import os
+import shutil
 from traceback import format_exc
 
 from aiogram import Bot, Dispatcher, executor, types
@@ -36,6 +37,8 @@ async def echo(message: types.Message):
         await message.answer('Чек получен')
 
         check = process_expense('download/check.json')
+
+        shutil.copy('download/check.json', destination + '.json')
 
         logger.info(f"Чек обработан\n{check.purchase_list}")
         await message.answer(f"Чек обработан\n{check.purchase_list}")
