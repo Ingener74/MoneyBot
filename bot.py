@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 from loguru import logger
 
 from Constants import purchase_config, CREDENTIAL_FILE
+from Json import reformat_json
 from Purchase.Purchase import Purchase
 from app import process_expense
 from get_check import get_check
@@ -38,7 +39,8 @@ async def echo(message: types.Message):
 
         check = process_expense('download/check.json')
 
-        shutil.copy('download/check.json', destination + '.json')
+        shutil.copy('download/check.json', destination + '.orig.json')
+        reformat_json('download/check.json', destination + '.reformat.json')
 
         logger.info(f"Чек обработан\n{check.purchase_list}")
         await message.answer(f"Чек обработан\n{check.purchase_list}")
