@@ -25,19 +25,12 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
 
         self.__showed = False
-
-        self.check: Optional[Check] = None
+        self.__check: Optional[Check] = None
 
         self.init_table_view()
         self.init_open_button()
         self.init_send_button()
         self.init_settings_button()
-
-    def init_settings_button(self):
-        def open_settings():
-            settings_dialog(self)
-
-        self.ui.pushButtonSettings.clicked.connect(open_settings)
 
     def showEvent(self, event) -> None:
         self.__showed = True
@@ -65,9 +58,9 @@ class MainWindow(QMainWindow):
                 QMessageBox.warning(self, 'Error', 'Set spread sheet id in settings')
             if settings.google_spread_sheet.credential_file == '':
                 QMessageBox.warning(self, 'Error', 'Set credential file in settings')
-            if not self.check.purchases:
+            if not self.__check.purchases:
                 QMessageBox.warning(self, 'Error', 'Check empty')
-            Purchase.save(self.check.date, self.check.purchases, purchase_config,
+            Purchase.save(self.__check.date, self.__check.purchases, purchase_config,
                           settings.google_spread_sheet.credential_file,
                           settings.google_spread_sheet.spread_sheet_id)
             QMessageBox.information(self, 'Успешно', 'Чек сохранён!')
@@ -82,9 +75,9 @@ class MainWindow(QMainWindow):
                 if not file_name:
                     return
 
-                self.check = collect_purchases_from_file(file_name)
+                self.__check = collect_purchases_from_file(file_name)
                 self.ui.pushButtonSend.setEnabled(True)
-                model = create_model(self.check)
+                model = create_model(self.__check)
                 self.ui.tableViewPurchases.setModel(model)
             except Exception:
                 QMessageBox.warning(self, 'Error', traceback.format_exc())
@@ -102,3 +95,9 @@ class MainWindow(QMainWindow):
             settings.save()
 
         self.ui.tableViewPurchases.horizontalHeader().sectionResized.connect(section_resized)
+
+    def init_settings_button(self):
+        def open_settings():
+            settings_dialog(self)
+
+        self.ui.pushButtonSettings.clicked.connect(open_settings)
