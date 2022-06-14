@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import os
 import shutil
+from time import perf_counter
 from traceback import format_exc
 
 from aiogram import Bot, Dispatcher, executor, types
@@ -28,6 +29,9 @@ async def send_welcome(message: types.Message):
 @dp.message_handler(commands=[''])
 @dp.message_handler(content_types=[ContentType.PHOTO, ContentType.DOCUMENT])
 async def echo(message: types.Message):
+
+    start = perf_counter()
+
     if message.photo:
         logger.info('Сообщение содержит фото...')
         destination = await message.photo[-1].download(destination_dir='.')
@@ -60,6 +64,13 @@ async def echo(message: types.Message):
         await message.answer('Чек сохранён')
     except Exception:
         await message.answer(f"Произошла ошибка: {format_exc()}")
+    finally:
+        end = perf_counter()
+
+        logger.info(f"Время выполнения {end - start:.2f} секунд")
+
+        with open('benchmarks.txt', 'a') as bench_file:
+            bench_file.write(f"{destination} - {end - start:.2f}\n")
 
 
 if __name__ == '__main__':
