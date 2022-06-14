@@ -1,10 +1,12 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import List
 
 import gspread
+from loguru import logger
 
 from Purchase.PurchaseConfig import PurchaseConfig
 
@@ -23,7 +25,6 @@ class Purchase:
              config: PurchaseConfig,
              service_account_token_file_name: str,
              spreadsheet_id: str):
-
         gc = gspread.service_account(filename=service_account_token_file_name)
         sh = gc.open_by_key(spreadsheet_id)
         worksheet = sh.worksheet(page)
@@ -64,7 +65,7 @@ class Purchase:
             today_data, value_input_option='USER_ENTERED')
 
         worksheet.format(
-            f"{config.name_column}{next_row}:{config.name_column}{next_row + num_of_purchases}", {
+            f"{config.name_column}{next_row}:{config.name_column}{next_row + (num_of_purchases - 1)}", {
                 "backgroundColor": {
                     "red": 0.76,
                     "green": 0.87,
