@@ -5,6 +5,7 @@ import shutil
 from traceback import format_exc
 
 from aiogram import Bot, Dispatcher, executor, types
+from aiogram.types.message import ContentType
 from dotenv import load_dotenv
 from loguru import logger
 
@@ -25,9 +26,17 @@ async def send_welcome(message: types.Message):
 
 
 @dp.message_handler(commands=[''])
-@dp.message_handler(content_types=['photo'])
+@dp.message_handler(content_types=[ContentType.PHOTO, ContentType.DOCUMENT])
 async def echo(message: types.Message):
-    destination = await message.photo[-1].download(destination_dir='.')
+    if message.photo:
+        logger.info('Сообщение содержит фото...')
+        destination = await message.photo[-1].download(destination_dir='.')
+        logger.info(f"... {destination}")
+
+    elif message.document:
+        logger.info('Сообщение содержит документ...')
+        destination = await message.document.download(destination_dir='.')
+        logger.info(f"... {destination}")
 
     try:
         destination = destination.name.replace('\\', '/')
