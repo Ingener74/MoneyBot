@@ -25,6 +25,10 @@ class Purchase:
              config: PurchaseConfig,
              service_account_token_file_name: str,
              spreadsheet_id: str):
+
+        if not purchases:
+            raise ValueError("Empty purchases list")
+
         gc = gspread.service_account(filename=service_account_token_file_name)
         sh = gc.open_by_key(spreadsheet_id)
         worksheet = sh.worksheet(page)
