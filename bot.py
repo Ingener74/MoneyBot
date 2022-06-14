@@ -16,7 +16,7 @@ from Purchase.Purchase import Purchase
 from app import process_expense
 from get_check import get_check
 
-logger.add("file_{time}.log", rotation="10 MB")
+logger.add("money_bot.log", rotation="10 MB")
 
 load_dotenv()
 bot = Bot(token=os.environ['TOKEN'])
