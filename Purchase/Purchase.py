@@ -62,3 +62,13 @@ class Purchase:
         worksheet.update(
             f"{config.today_column}{next_row}:{config.today_column}{next_row + num_of_purchases}",
             today_data, value_input_option='USER_ENTERED')
+
+        worksheet.format(
+            f"{config.name_column}{next_row}:{config.name_column}{next_row + num_of_purchases}", {
+                "backgroundColor": {
+                    "red": 0.76,
+                    "green": 0.87,
+                    "blue": 0.82
+                }
+            }
+        )
