@@ -26,6 +26,11 @@ class TestPurchase:
         fake_client.open_by_key = MagicMock(return_value=fake_spreadsheet)
         gspread_service_account: MagicMock = mocker.patch('gspread.service_account', return_value=fake_client)
 
+        manager = MagicMock()
+        manager.client = fake_client
+        manager.spreadsheet = fake_spreadsheet
+        manager.worksheet = fake_worksheet
+
         purchases = [
             Purchase('Soap', '1,0', '1,0', 'Seller', '01.01.2022')
         ]
@@ -36,42 +41,21 @@ class TestPurchase:
         gspread_service_account.assert_has_calls([
             call(filename='creds.json')
         ])
-        fake_client.open_by_key.assert_has_calls([
-            call('very-long-spreadsheet-id')
-        ])
-        fake_spreadsheet.worksheet.assert_has_calls([
-            call('01.2022')
-        ])
-        fake_worksheet.update.assert_has_calls([
-            call('A6:A7', [['Soap']], value_input_option='USER_ENTERED')
-        ])
-        fake_worksheet.update.assert_has_calls([
-            call('B6:B7', [['1,0']], value_input_option='USER_ENTERED')
-        ])
-        fake_worksheet.update.assert_has_calls([
-            call('C6:C7', [['1,0']], value_input_option='USER_ENTERED')
-        ])
-        fake_worksheet.update.assert_has_calls([
-            call('D6:D7', [['Seller']], value_input_option='USER_ENTERED')
-        ])
-        fake_worksheet.update.assert_has_calls([
-            call('E6:E7', [['01.01.2022']], value_input_option='USER_ENTERED')
-        ])
-        fake_worksheet.format.assert_has_calls([
-            call('A6:A6', ANY)
-        ])
-        fake_worksheet.format.assert_has_calls([
-            call('B6:B6', ANY)
-        ])
-        fake_worksheet.format.assert_has_calls([
-            call('C6:C6', ANY)
-        ])
-        fake_worksheet.format.assert_has_calls([
-            call('D6:D6', ANY)
-        ])
-        fake_worksheet.format.assert_has_calls([
-            call('E6:E6', ANY)
-        ])
+        assert manager.mock_calls == [
+            call.client.open_by_key('very-long-spreadsheet-id'),
+            call.spreadsheet.worksheet('01.2022'),
+            call.worksheet.col_values(0),
+            call.worksheet.update('A6:A7', [['Soap']], value_input_option='USER_ENTERED'),
+            call.worksheet.format('A6:A6', ANY),
+            call.worksheet.update('B6:B7', [['1,0']], value_input_option='USER_ENTERED'),
+            call.worksheet.format('B6:B6', ANY),
+            call.worksheet.update('C6:C7', [['1,0']], value_input_option='USER_ENTERED'),
+            call.worksheet.format('C6:C6', ANY),
+            call.worksheet.update('D6:D7', [['Seller']], value_input_option='USER_ENTERED'),
+            call.worksheet.format('D6:D6', ANY),
+            call.worksheet.update('E6:E7', [['01.01.2022']], value_input_option='USER_ENTERED'),
+            call.worksheet.format('E6:E6', ANY),
+        ]
 
     def test_save_empty(self):
         with pytest.raises(ValueError) as ei:
