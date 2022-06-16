@@ -6,7 +6,6 @@ from dataclasses import dataclass
 from typing import List
 
 import gspread
-from loguru import logger
 
 from Purchase.PurchaseConfig import PurchaseConfig
 
@@ -52,28 +51,19 @@ class Purchase:
             seller_data.append([purchase.seller])
             today_data.append([purchase.today_])
 
-        worksheet.update(
-            f"{config.name_column}{next_row}:{config.name_column}{next_row + num_of_purchases}",
-            name_data, value_input_option='USER_ENTERED')
-        worksheet.update(
-            f"{config.quantity_column}{next_row}:{config.quantity_column}{next_row + num_of_purchases}",
-            quantity_data, value_input_option='USER_ENTERED')
-        worksheet.update(
-            f"{config.price_column}{next_row}:{config.price_column}{next_row + num_of_purchases}",
-            price_data, value_input_option='USER_ENTERED')
-        worksheet.update(
-            f"{config.seller_column}{next_row}:{config.seller_column}{next_row + num_of_purchases}",
-            seller_data, value_input_option='USER_ENTERED')
-        worksheet.update(
-            f"{config.today_column}{next_row}:{config.today_column}{next_row + num_of_purchases}",
-            today_data, value_input_option='USER_ENTERED')
-
-        worksheet.format(
-            f"{config.name_column}{next_row}:{config.name_column}{next_row + (num_of_purchases - 1)}", {
+        def update_and_format(column, next_row, purchases, data):
+            worksheet.update(f"{column}{next_row}:{column}{next_row + purchases}", data,
+                             value_input_option='USER_ENTERED')
+            worksheet.format(f"{column}{next_row}:{column}{next_row + (purchases - 1)}", {
                 "backgroundColor": {
                     "red": 0.76,
                     "green": 0.87,
                     "blue": 0.82
                 }
-            }
-        )
+            })
+
+        update_and_format(config.name_column, next_row, num_of_purchases, name_data)
+        update_and_format(config.quantity_column, next_row, num_of_purchases, quantity_data)
+        update_and_format(config.price_column, next_row, num_of_purchases, price_data)
+        update_and_format(config.seller_column, next_row, num_of_purchases, seller_data)
+        update_and_format(config.today_column, next_row, num_of_purchases, today_data)

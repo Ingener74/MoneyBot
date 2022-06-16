@@ -60,6 +60,18 @@ class TestPurchase:
         fake_worksheet.format.assert_has_calls([
             call('A6:A6', ANY)
         ])
+        fake_worksheet.format.assert_has_calls([
+            call('B6:B6', ANY)
+        ])
+        fake_worksheet.format.assert_has_calls([
+            call('C6:C6', ANY)
+        ])
+        fake_worksheet.format.assert_has_calls([
+            call('D6:D6', ANY)
+        ])
+        fake_worksheet.format.assert_has_calls([
+            call('E6:E6', ANY)
+        ])
 
     def test_save_empty(self):
         with pytest.raises(ValueError) as ei:
