@@ -34,17 +34,20 @@ async def send_welcome(message: types.Message):
 async def echo(message: types.Message):
     start = perf_counter()
 
-    if message.photo:
-        logger.info('Сообщение содержит фото...')
-        destination = await message.photo[-1].download(destination_dir='.')
-        logger.info(f"... {destination}")
-
-    elif message.document:
-        logger.info('Сообщение содержит документ...')
-        destination = await message.document.download(destination_dir='.')
-        logger.info(f"... {destination}")
-
+    successful = False
+    destination = ''
     try:
+        if message.photo:
+            logger.info('Сообщение содержит фото...')
+            destination = await message.photo[-1].download(destination_dir='.')
+            logger.info(f"... {destination}")
+        elif message.document:
+            logger.info('Сообщение содержит документ...')
+            destination = await message.document.download(destination_dir='.')
+            logger.info(f"... {destination}")
+        else:
+            raise RuntimeError('No photo or document')
+
         destination = destination.name.replace('\\', '/')
 
         get_check(destination)
@@ -64,19 +67,21 @@ async def echo(message: types.Message):
 
         logger.info('Чек сохранён')
         await message.answer('Чек сохранён')
+        successful = True
     except Exception:
         await message.answer(f"Произошла ошибка: {format_exc()}")
+
     finally:
         end = perf_counter()
 
         logger.info(f"Время выполнения {end - start:.2f} секунд")
 
-        write_execution_time('benchmarks.txt', end - start, datetime.now(), destination)
+        write_execution_time('benchmarks.txt', successful, end - start, datetime.now(), destination)
 
 
-def write_execution_time(file_name: str, delta: float, datetime: datetime, destination: str):
+def write_execution_time(file_name: str, successful: bool, delta: float, datetime: datetime, destination: str):
     with open(file_name, 'a') as bench_file:
-        bench_file.write(f"{destination};{datetime.strftime('%H:%M:%S-%d.%m.%Y')};{delta:.2f}\n")
+        bench_file.write(f"{destination};{successful};{datetime.strftime('%H:%M:%S-%d.%m.%Y')};{delta:.2f}\n")
 
 
 if __name__ == '__main__':
