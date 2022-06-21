@@ -4,6 +4,7 @@ import os
 import shutil
 from time import perf_counter
 from traceback import format_exc
+from datetime import datetime
 
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types.message import ContentType
@@ -31,7 +32,6 @@ async def send_welcome(message: types.Message):
 @dp.message_handler(commands=[''])
 @dp.message_handler(content_types=[ContentType.PHOTO, ContentType.DOCUMENT])
 async def echo(message: types.Message):
-
     start = perf_counter()
 
     if message.photo:
@@ -71,8 +71,12 @@ async def echo(message: types.Message):
 
         logger.info(f"Время выполнения {end - start:.2f} секунд")
 
-        with open('benchmarks.txt', 'a') as bench_file:
-            bench_file.write(f"{destination} - {end - start:.2f}\n")
+        write_execution_time('benchmarks.txt', end - start, datetime.now(), destination)
+
+
+def write_execution_time(file_name: str, delta: float, datetime: datetime, destination: str):
+    with open(file_name, 'a') as bench_file:
+        bench_file.write(f"{destination};{datetime.strftime('%H:%M:%S-%d.%m.%Y')};{delta:.2f}\n")
 
 
 if __name__ == '__main__':
