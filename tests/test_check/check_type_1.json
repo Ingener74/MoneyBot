@@ -1,0 +1,57 @@
+{
+    "code": 3,
+    "user": "ООО \"ЯНДЕКС.ТАКСИ\"",
+    "items": [
+        {
+            "nds": 6,
+            "sum": 9600,
+            "name": "Перевозка пассажиров и багажа",
+            "price": 9600,
+            "quantity": 1,
+            "paymentType": 4,
+            "providerInn": "7448209706  "
+        }
+    ],
+    "ndsNo": 9600,
+    "fnsUrl": "www.nalog.gov.ru",
+    "region": "62",
+    "userInn": "7704340310  ",
+    "dateTime": "2022-06-09T09:34:00",
+    "kktRegId": "0001709667029804    ",
+    "metadata": {
+        "id": 4274104036666100000,
+        "ofdId": "ofd8",
+        "address": "391434,Россия,Рязанская область,Город Сасово г.о.,,Сасово город,,Пушкина улица,,дом 21,,,,",
+        "subtype": "receipt",
+        "receiveDate": "2022-06-09T06:34:04Z"
+    },
+    "totalSum": 9600,
+    "creditSum": 0,
+    "numberKkt": "00000003820055230271",
+    "fiscalSign": 290125100,
+    "prepaidSum": 0,
+    "properties": {
+        "propertyName": "trust_purchase_token",
+        "propertyValue": "b2a8f09c92cf305906ebe49cba2befa1|hold_62a1945b8927caa435e80c77"
+    },
+    "retailPlace": "taxi.yandex.ru",
+    "shiftNumber": 133,
+    "cashTotalSum": 0,
+    "internetSign": 1,
+    "provisionSum": 0,
+    "ecashTotalSum": 9600,
+    "machineNumber": "whitespirit2h",
+    "operationType": 1,
+    "redefine_mask": 0,
+    "requestNumber": 1023,
+    "sellerAddress": "support@go.yandex.com",
+    "propertiesData": "ws:C6ASV3BNBI",
+    "paymentAgentType": 64,
+    "fiscalDriveNumber": "9960440301991593",
+    "messageFiscalSign": 9297306663546247000,
+    "retailPlaceAddress": "391434, Россия, Рязанская обл., г. Сасово, ул. Пушкина, д. 21",
+    "appliedTaxationType": 1,
+    "buyerPhoneOrAddress": "+79090896479",
+    "fiscalDocumentNumber": 93754,
+    "fiscalDocumentFormatVer": 2
+}
