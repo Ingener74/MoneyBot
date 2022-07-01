@@ -12,12 +12,10 @@ from money.product import Product
 class Check:
     goods: List[Product] = field(default_factory=list)
     date: date = date(2000, 1, 1)
-    seller: str = ''
 
     @property
     def date_(self) -> str:
-        d = self.date.strftime("%d.%m.%Y")
-        return d
+        return self.date.strftime("%d.%m.%Y")
 
     @staticmethod
     def from_json(json_file_name: str) -> Check:
@@ -28,9 +26,6 @@ class Check:
                 raise KeyError(error_msg)
             return d[key]
 
-        retail_place = get(json_data, 'retailPlace', f"В файле '{json_file_name}' нет записи о месте продажи")
-        user = get(json_data, 'user', f"В файле '{json_file_name}' нет записи о продавце")
-
         date_time = get(json_data, "dateTime", f"В файле '{json_file_name}' нет записи о дате и времени продажи")
 
         if isinstance(date_time, str):
@@ -40,18 +35,18 @@ class Check:
         else:
             raise TypeError(f"dateTime '{date_time}' has invalid type")
 
-        check = Check(date=date(date_time.year, date_time.month, date_time.day), seller=f"{user}, {retail_place}")
+        retail_place = get(json_data, 'retailPlace', f"В файле '{json_file_name}' нет записи о месте продажи")
+        user = get(json_data, 'user', f"В файле '{json_file_name}' нет записи о продавце")
 
-        items = get(json_data, 'items', f"В файле '{json_file_name}' нет списка покупок")
+        return Check(
+            [Product(
+                get(item, 'name', "В покупке отсутствует имя"),
+                float(get(item, 'quantity', "В покупке отсутствует количество")),
+                float(get(item, 'price', "В покупке отсутствует цена")) / 100,
+                f"{user}, {retail_place}"
+            ) for item in get(json_data, 'items', f"В файле '{json_file_name}' нет списка покупок")],
+            date(date_time.year, date_time.month, date_time.day))
 
-        for item in items:
-            name = get(item, 'name', "В покупке отсутствует имя")
-            quantity = float(get(item, 'quantity', "В покупке отсутствует количество"))
-            price = float(get(item, 'price', "В покупке отсутствует цена")) / 100
-
-            check.goods.append(Product(name, quantity, price))
-
-        return check
 
     @staticmethod
     def __data_from_json_file(json_file_name: str):
