@@ -1,8 +1,9 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import datetime
+
 import json
 import os
+from datetime import datetime
 from typing import Optional
 
 from dotenv import load_dotenv
@@ -30,7 +31,12 @@ def process_expense(json_file_name: str) -> Check:
         if "dateTime" not in json_data:
             raise KeyError
         date_time = json_data["dateTime"]
-        date_time = datetime.datetime.strptime(date_time, "%Y-%m-%dT%H:%M:%S")
+        if isinstance(date_time, str):
+            date_time = datetime.strptime(date_time, "%Y-%m-%dT%H:%M:%S")
+        elif isinstance(date_time, int):
+            date_time = datetime.fromtimestamp(date_time)
+        else:
+            raise TypeError(f"dateTime '{date_time}' has invalid type")
         today_ = date_time.strftime("%d.%m.%Y")
         # logger.debug(f'Date {today_}')
         page_ = date_time.strftime("%m.%Y")
