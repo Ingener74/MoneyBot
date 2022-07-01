@@ -5,7 +5,7 @@ from time import sleep, perf_counter
 from traceback import format_exc
 
 from loguru import logger
-from selenium.webdriver import Chrome, ChromeOptions, ActionChains
+from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC

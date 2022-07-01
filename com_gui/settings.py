@@ -10,8 +10,8 @@ from traceback import format_exc
 from dacite import from_dict
 from loguru import logger
 
-from ComGui.Utils.ModalDialog import ModalDialogSettings
-from ComGui.Utils.SettingsUtils import ByteArraySetting
+from com_gui.utils.modal_dialog import ModalDialogSettings
+from com_gui.utils.settings_utils import ByteArraySetting
 
 settings_file_name = os.path.normpath(
     os.path.join(os.path.expanduser('~'), 'Documents', 'ShnaiderPavel', 'CommunalPayments', 'settings.json'))

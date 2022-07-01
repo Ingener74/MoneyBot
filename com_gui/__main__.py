@@ -4,8 +4,8 @@ import sys
 
 from PySide6.QtWidgets import QApplication
 
-from ComGui.MainWindow.MainWindow import MainWindow
-from ComGui.Settings import settings
+from com_gui.mainwindow.main_window import MainWindow
+from com_gui.settings import settings
 
 app = QApplication()
 

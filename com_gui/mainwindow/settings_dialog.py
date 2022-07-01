@@ -4,8 +4,8 @@ from typing import Callable, Optional, Any
 
 from PySide6.QtWidgets import QWidget, QLabel, QPushButton, QLineEdit, QFileDialog
 
-from ComGui.Settings import settings
-from ComGui.Utils.ModalDialog import create_dialog, ModalDialog
+from com_gui.settings import settings
+from com_gui.utils.modal_dialog import create_dialog, ModalDialog
 
 
 def settings_dialog(parent: QWidget):

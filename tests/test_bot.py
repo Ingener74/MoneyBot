@@ -1,5 +1,5 @@
 from datetime import datetime
-from unittest.mock import MagicMock, mock_open, call, patch
+from unittest.mock import call
 
 import bot
 
@@ -15,5 +15,3 @@ def test_write_execution_time(mocker):
         call().__enter__().write('./foo.png;True;10:00:00-17.06.2022;1.00\n'),
         call().__exit__(None, None, None),
     ]
-
-

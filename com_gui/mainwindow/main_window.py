@@ -7,10 +7,11 @@ from typing import Optional
 from PySide6.QtCore import QRect, QTimer
 from PySide6.QtWidgets import QMainWindow, QFileDialog, QMessageBox
 
-from ComGui.MainWindow.SettingsDialog import settings_dialog
-from ComGui.Model.PurchaseModel import create_model
-from ComGui.Settings import settings
-from ComGui.res.Ui_MainWindow import Ui_MainWindow
+from com_gui.mainwindow.settings_dialog import settings_dialog
+from com_gui.model.purchase_model import create_model
+from com_gui.res.ui_main_window import Ui_MainWindow
+from com_gui.settings import settings
+
 from Constants import purchase_config
 from Purchase.Check import Check
 from Purchase.Purchase import Purchase

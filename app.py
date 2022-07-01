@@ -15,6 +15,7 @@ from Purchase.Purchase import Purchase
 
 load_dotenv()
 
+
 def process_expense(json_file_name: str) -> Check:
     check = Check()
     with open(json_file_name, 'r', encoding='utf-8') as file_:
@@ -52,17 +53,17 @@ def process_expense(json_file_name: str) -> Check:
         for item in items:
             # Достаём название покупки
             if 'name' not in item:
-                raise KeyError(f"В покупке отсутствует имя")
+                raise KeyError("В покупке отсутствует имя")
             name = item['name']
 
             # Достаём количество покупок или вес или т д
             if 'quantity' not in item:
-                raise KeyError(f"В покупке отсутствует количество")
+                raise KeyError("В покупке отсутствует количество")
             quantity = str(item['quantity']).replace('.', ',')
 
             # Достаём цену, одну единицы покупки, сумма посчитается таблицей
             if 'price' not in item:
-                raise KeyError(f"В покупке отсутствует цена")
+                raise KeyError("В покупке отсутствует цена")
             price = str(item['price'] / 100).replace('.', ',')
 
             check.purchases.append(Purchase(name, quantity, price, retailPlace, today_))
@@ -89,7 +90,7 @@ def main():
 
     file_ = find_file('download', 'check.json')
     if file_ is None:
-        logger.error(f"File check.json not found")
+        logger.error("File check.json not found")
 
     check = process_expense(file_)
 

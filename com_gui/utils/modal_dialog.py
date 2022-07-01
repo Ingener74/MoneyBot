@@ -10,13 +10,13 @@ from PySide6.QtCore import QRect, QTimer, Qt
 from PySide6.QtGui import QResizeEvent, QMoveEvent
 from PySide6.QtWidgets import QDialog, QWidget, QVBoxLayout, QHBoxLayout, QLayout
 
-from ComGui.Utils.SettingsUtils import ByteArraySetting
+from com_gui.utils.settings_utils import ByteArraySetting
 
 
 @dataclass()
 class ModalDialogSettings:
     geometries: Dict[str, ByteArraySetting] = field(default_factory=dict)
-    save_callback: InitVar[Optional[Callable[[], None]]] = None
+    save_callback: InitVar = None
 
 
 class ModalDialog(QDialog):

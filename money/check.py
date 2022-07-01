@@ -47,7 +47,6 @@ class Check:
             ) for item in get(json_data, 'items', f"В файле '{json_file_name}' нет списка покупок")],
             date(date_time.year, date_time.month, date_time.day))
 
-
     @staticmethod
     def __data_from_json_file(json_file_name: str):
         with open(json_file_name, 'r', encoding='utf-8') as file_:
