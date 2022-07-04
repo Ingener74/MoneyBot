@@ -18,6 +18,32 @@ class Check:
         return self.date.strftime("%d.%m.%Y")
 
     @staticmethod
+    def from_communal_payments(com_pay_file_name) -> Check:
+        with open(com_pay_file_name, 'r', encoding='utf-8') as file:
+            check = Check()
+            product = Product(quantity=1.0)
+            for line in file:
+                if line.startswith('ИТОГО'):
+                    product.price = float(line.split('...')[-1].lstrip('.').rstrip('\n'))
+
+                try:
+                    date_time = datetime.strptime(line, "%d/%m/%Y         %H:%M:%S\n")
+                    check.date = date(date_time.year, date_time.month, date_time.day)
+                except ValueError:
+                    pass
+
+                if line.startswith('Получатель: '):
+                    product.seller = line[len('Получатель: '):].rstrip('\n')
+
+                if line.startswith('Назначение перевода: '):
+                    product.name = line[len('Назначение перевода: '):].rstrip('\n')
+
+                    check.goods.append(product)
+                    product = Product(quantity=1.0)
+
+            return check
+
+    @staticmethod
     def from_json(json_file_name: str) -> Check:
         json_data = Check.__data_from_json_file(json_file_name)
 

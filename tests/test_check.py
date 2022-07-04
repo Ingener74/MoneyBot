@@ -28,9 +28,7 @@ class TestCheck:
         )
 
     def test_from_json_type_2(self, datadir):
-        json_file_name = str(datadir / "check_type_2.json")
-
-        check = Check.from_json(json_file_name)
+        check = Check.from_json(datadir / "check_type_2.json")
 
         assert check == Check(
             [
@@ -44,4 +42,22 @@ class TestCheck:
                         "АКЦИОНЕРНОЕ ОБЩЕСТВО \"ТАНДЕР\", Магазин  Магнит  Шум"),
             ],
             date(2022, 6, 23)
+        )
+
+    def test_communal_payments(self, datadir):
+        check = Check.from_communal_payments(datadir / "test_com.txt")
+
+        assert check == Check(
+            [
+                Product("МУП ПОВВ:ХВС ПОВЫШАЮЩИЙ КОЭФФИЦИЕНТ", 1.0, 120.82, "МУП \"ПОВВ\""),
+                Product("ТСН ГРИНПАРК 68: ЖИЛИЩНО-КОММУНАЛЬНЫЕ УСЛУГИ", 1.0, 2015.48, "ТСН \"ГРИНПАРК 68\""),
+                Product("ЕРЦ УРАЛЭНЕРГОСБЫТ(ООО\"НКР\")ДЛЯ ООО УЭС,АО УСТЭК-ЧЕЛЯБ-СК: КОМ.", 1.0, 624.38,
+                        "ОПЕРАТОР ООО \"НКР\" (ДЛЯ ООО \"УРАЛЭНЕРГОСБЫТ\" - Э/Э, ДЛЯ АО"),
+                Product("МУП ПОВВ:ВО", 1.0, 174.45, "МУП \"ПОВВ\""),
+                Product("МУП ПОВВ:ХВС", 1.0, 241.63, "МУП \"ПОВВ\""),
+                Product("УРАЛЖИЛСЕРВИС:ЗА ДОМОФОН", 1.0, 35.35, "ООО \"УРАЛЖИЛСЕРВИС\""),
+                Product("ООО ЦКС: УСЛУГИ ОБРАЩЕНИЯ С ТКО ЧЕЛЯБИНСКИЙ КЛАСТЕР", 1.0, 86.08, "ООО \"ЦКС\""),
+                Product("ТСН ГРИНПАРК 68: КАПИТАЛЬНЫЙ РЕМОНТ", 1.0, 661.02, "ТСН \"ГРИНПАРК 68\""),
+            ],
+            date(2022, 6, 15)
         )
