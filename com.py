@@ -20,11 +20,11 @@ def collect_purchases_from_file(file_name: str) -> Check:
 
             if line.startswith('ИТОГО'):
                 price = line.split('...')
-                price = price[-1]
-                price = price.lstrip('.')
-                price = price.rstrip('\n')
-                price = price.replace('.', ',')
-                purchase.price = price
+                price_ = price[-1]
+                price_ = price_.lstrip('.')
+                price_ = price_.rstrip('\n')
+                price_ = price_.replace('.', ',')
+                purchase.price = price_
                 purchase.quantity = '1'
 
             try:

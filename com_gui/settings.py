@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+from contextlib import contextmanager
 from dataclasses import dataclass, asdict
 from traceback import format_exc
 
@@ -43,11 +44,21 @@ class Settings:
     modal_dialogs_settings: ModalDialogSettings = ModalDialogSettings()
 
     def save(self):
-        dict_data = asdict(self)
-        json_data = json.dumps(dict_data, indent=4)
-        os.makedirs(os.path.dirname(settings_file_name), exist_ok=True)
-        with open(settings_file_name, 'w+') as settings_file_:
-            settings_file_.write(json_data)
+        with self.prepare_to_save():
+            dict_data = asdict(self)
+            json_data = json.dumps(dict_data, indent=4)
+            os.makedirs(os.path.dirname(settings_file_name), exist_ok=True)
+            with open(settings_file_name, 'w+') as settings_file_:
+                settings_file_.write(json_data)
+
+    @contextmanager
+    def prepare_to_save(self):
+        save_callback = self.modal_dialogs_settings.save_callback
+        try:
+            self.modal_dialogs_settings.save_callback = None
+            yield
+        finally:
+            self.modal_dialogs_settings.save_callback = save_callback
 
     @staticmethod
     def load():

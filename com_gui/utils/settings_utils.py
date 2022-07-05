@@ -6,7 +6,7 @@ from PySide6.QtCore import QByteArray
 
 
 def from_bytearray(ba: QByteArray) -> str:
-    return bytes(ba.toHex()).decode('ascii')
+    return bytes(ba.toHex()).decode('ascii')  # type: ignore
 
 
 def to_bytearray(data: str) -> QByteArray:

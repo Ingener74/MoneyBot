@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 import os
 import shutil
+from datetime import datetime
 from time import perf_counter
 from traceback import format_exc
-from datetime import datetime
 
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types.message import ContentType
@@ -39,16 +39,17 @@ async def echo(message: types.Message):
     try:
         if message.photo:
             logger.info('Сообщение содержит фото...')
-            destination = await message.photo[-1].download(destination_dir='.')
-            logger.info(f"... {destination}")
+            dest = await message.photo[-1].download(destination_dir='.')
+            logger.info(f"... {dest}")
         elif message.document:
             logger.info('Сообщение содержит документ...')
-            destination = await message.document.download(destination_dir='.')
-            logger.info(f"... {destination}")
+            dest = await message.document.download(destination_dir='.')
+            logger.info(f"... {dest}")
         else:
             raise RuntimeError('No photo or document')
 
-        destination = destination.name.replace('\\', '/')
+        destination = str(dest.name)
+        destination = destination.replace('\\', '/')
 
         get_check(destination)
 

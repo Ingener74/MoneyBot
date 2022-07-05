@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from dataclasses import dataclass, field, InitVar
+from dataclasses import dataclass, field
 from functools import partial
 from typing import Any, Callable, Optional, List, Dict
 
@@ -16,7 +16,7 @@ from com_gui.utils.settings_utils import ByteArraySetting
 @dataclass()
 class ModalDialogSettings:
     geometries: Dict[str, ByteArraySetting] = field(default_factory=dict)
-    save_callback: InitVar = None
+    save_callback: Optional[Callable[[], None]] = None
 
 
 class ModalDialog(QDialog):
@@ -25,6 +25,7 @@ class ModalDialog(QDialog):
         self.__name = name
         self.__showed = False
         self.settings = settings
+        self.result_ = None
 
     def showEvent(self, _) -> None:
         self.__showed = True
@@ -60,13 +61,13 @@ def create_dialog(name: str, parent: QWidget, settings: ModalDialogSettings, con
     dialog = ModalDialog(name, parent, settings)
     dialog.setModal(True)
     dialog.setWindowTitle(name)
-    dialog.setWindowFlags(dialog.windowFlags() & ~Qt.WindowContextHelpButtonHint)
-    dialog.result = None
+    dialog.setWindowFlags(dialog.windowFlags() & ~Qt.WindowContextHelpButtonHint)  # type: ignore
+    dialog.result_ = None
 
     layout = QVBoxLayout(dialog)
 
     def update_result(result: Optional[Any]):
-        dialog.result = result
+        dialog.result_ = result
         dialog.accept()
 
     list_ = content(dialog, update_result)
@@ -86,6 +87,6 @@ def create_dialog(name: str, parent: QWidget, settings: ModalDialogSettings, con
             layout.addWidget(w)
 
     r = dialog.exec_()
-    if r == QDialog.Accepted and dialog.result is not None:
-        return dialog.result
+    if r == QDialog.Accepted and dialog.result_ is not None:
+        return dialog.result_
     return None

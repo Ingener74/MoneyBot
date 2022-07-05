@@ -22,7 +22,7 @@ def settings_dialog(parent: QWidget):
             settings.google_spread_sheet.credential_file = file_name
             settings.save()
 
-        open_credential_file.clicked.connect(open_credential_file_click)
+        open_credential_file.clicked.connect(open_credential_file_click)  # type: ignore
 
         spread_sheet_id = QLineEdit(settings.google_spread_sheet.spread_sheet_id)
         spread_sheet_id.setPlaceholderText("Enter spread sheet id")
@@ -31,7 +31,7 @@ def settings_dialog(parent: QWidget):
             settings.google_spread_sheet.spread_sheet_id = spread_sheet_id.text()
             settings.save()
 
-        spread_sheet_id.textChanged.connect(spread_sheet_id_changed)
+        spread_sheet_id.textChanged.connect(spread_sheet_id_changed)  # type: ignore
 
         return [
             [credential_file, open_credential_file],

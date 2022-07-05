@@ -22,10 +22,11 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
+        self.__showed = False
+
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        self.__showed = False
         self.__check: Optional[Check] = None
 
         self.init_table_view()
