@@ -1,5 +1,6 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import json
 import os
 import shutil
 from datetime import datetime
@@ -51,7 +52,12 @@ async def echo(message: types.Message):
         destination = str(dest.name)
         destination = destination.replace("\\", "/")
 
-        get_check(destination)
+        if destination.endswith(".json"):
+            json_data = json.load(open(destination, "r"))
+            json_data = json_data[0]["ticket"]["document"]["receipt"]
+            json.dump(json_data, open("download/check.json", "w"))
+        else:
+            get_check(destination)
 
         logger.info("Чек получен")
         await message.answer("Чек получен")
