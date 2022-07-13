@@ -56,16 +56,20 @@ class MainWindow(QMainWindow):
 
     def init_send_button(self):
         def send():
-            if settings.google_spread_sheet.spread_sheet_id == '':
-                QMessageBox.warning(self, 'Error', 'Set spread sheet id in settings')
-            if settings.google_spread_sheet.credential_file == '':
-                QMessageBox.warning(self, 'Error', 'Set credential file in settings')
+            if settings.google_spread_sheet.spread_sheet_id == "":
+                QMessageBox.warning(self, "Error", "Set spread sheet id in settings")
+            if settings.google_spread_sheet.credential_file == "":
+                QMessageBox.warning(self, "Error", "Set credential file in settings")
             if not self.__check.purchases:
-                QMessageBox.warning(self, 'Error', 'Check empty')
-            Purchase.save(self.__check.date, self.__check.purchases, purchase_config,
-                          settings.google_spread_sheet.credential_file,
-                          settings.google_spread_sheet.spread_sheet_id)
-            QMessageBox.information(self, 'Успешно', 'Чек сохранён!')
+                QMessageBox.warning(self, "Error", "Check empty")
+            Purchase.save(
+                self.__check.date,
+                self.__check.purchases,
+                purchase_config,
+                settings.google_spread_sheet.credential_file,
+                settings.google_spread_sheet.spread_sheet_id,
+            )
+            QMessageBox.information(self, "Успешно", "Чек сохранён!")
 
         self.ui.pushButtonSend.clicked.connect(send)
         self.ui.pushButtonSend.setEnabled(False)
@@ -73,7 +77,7 @@ class MainWindow(QMainWindow):
     def init_open_button(self):
         def open_file():
             try:
-                file_name, filter = QFileDialog.getOpenFileName(self, 'Открой файл с данными о коммунальных платежах')
+                file_name, filter = QFileDialog.getOpenFileName(self, "Открой файл с данными о коммунальных платежах")
                 if not file_name:
                     return
 
@@ -82,7 +86,7 @@ class MainWindow(QMainWindow):
                 model = create_model(self.__check)
                 self.ui.tableViewPurchases.setModel(model)
             except Exception:
-                QMessageBox.warning(self, 'Error', traceback.format_exc())
+                QMessageBox.warning(self, "Error", traceback.format_exc())
 
         self.ui.pushButtonOpen.clicked.connect(open_file)
 

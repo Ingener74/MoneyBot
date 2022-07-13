@@ -12,18 +12,20 @@ from Purchase.PurchaseConfig import PurchaseConfig
 
 @dataclass
 class Purchase:
-    name: str = ''
-    quantity: str = ''
-    price: str = ''
-    seller: str = ''
-    today_: str = ''
+    name: str = ""
+    quantity: str = ""
+    price: str = ""
+    seller: str = ""
+    today_: str = ""
 
     @staticmethod
-    def save(page: str,
-             purchases: List[Purchase],
-             config: PurchaseConfig,
-             service_account_token_file_name: str,
-             spreadsheet_id: str):
+    def save(
+        page: str,
+        purchases: List[Purchase],
+        config: PurchaseConfig,
+        service_account_token_file_name: str,
+        spreadsheet_id: str,
+    ):
 
         if not purchases:
             raise ValueError("Empty purchases list")
@@ -52,15 +54,15 @@ class Purchase:
             today_data.append([purchase.today_])
 
         def update_and_format(column, next_row, purchases, data):
-            worksheet.update(f"{column}{next_row}:{column}{next_row + purchases}", data,
-                             value_input_option='USER_ENTERED')
-            worksheet.format(f"{column}{next_row}:{column}{next_row + (purchases - 1)}", {
-                "backgroundColor": {
-                    "red": 0.76,
-                    "green": 0.87,
-                    "blue": 0.82
-                }
-            })
+            worksheet.update(
+                f"{column}{next_row}:{column}{next_row + purchases}",
+                data,
+                value_input_option="USER_ENTERED",
+            )
+            worksheet.format(
+                f"{column}{next_row}:{column}{next_row + (purchases - 1)}",
+                {"backgroundColor": {"red": 0.76, "green": 0.87, "blue": 0.82}},
+            )
 
         update_and_format(config.name_column, next_row, num_of_purchases, name_data)
         update_and_format(config.quantity_column, next_row, num_of_purchases, quantity_data)

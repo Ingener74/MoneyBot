@@ -14,7 +14,7 @@ def settings_dialog(parent: QWidget):
         open_credential_file = QPushButton("Открыть файл credential.json")
 
         def open_credential_file_click():
-            file_name, filter = QFileDialog.getOpenFileName(dialog, 'Открой файл credential.json')
+            file_name, filter = QFileDialog.getOpenFileName(dialog, "Открой файл credential.json")
             if not file_name:
                 return
 
@@ -33,9 +33,6 @@ def settings_dialog(parent: QWidget):
 
         spread_sheet_id.textChanged.connect(spread_sheet_id_changed)  # type: ignore
 
-        return [
-            [credential_file, open_credential_file],
-            spread_sheet_id
-        ]
+        return [[credential_file, open_credential_file], spread_sheet_id]
 
     return create_dialog("Settings", parent, settings.modal_dialogs_settings, content)

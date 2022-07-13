@@ -15,7 +15,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 def clear_download():
     logger.debug("Clear download")
-    for r_, d_, f_ in os.walk('download'):
+    for r_, d_, f_ in os.walk("download"):
         for file_ in f_:
             remove_file_name = os.path.join(r_, file_)
             os.remove(remove_file_name)
@@ -25,7 +25,7 @@ def clear_download():
 
 def wait_file(file_name: str, pause=0.1, timeout=10):
     def check_file() -> bool:
-        for r_, d_, f_ in os.walk('download'):
+        for r_, d_, f_ in os.walk("download"):
             for file_ in f_:
                 if file_ == file_name:
                     return True
@@ -49,19 +49,22 @@ def get_check(check_photo_file_name: str):
     driver: Optional[Chrome] = None
     try:
         options = ChromeOptions()
-        current_directory = os.path.abspath(os.path.join(os.path.curdir, 'download'))
+        current_directory = os.path.abspath(os.path.join(os.path.curdir, "download"))
 
-        options.add_experimental_option("prefs", {
-            "download.default_directory": current_directory,
-            "download.directory_upgrade": True,
-            "download.prompt_for_download": False,
-            "safebrowsing.enabled": True
-        })
-        options.add_argument('--headless')
+        options.add_experimental_option(
+            "prefs",
+            {
+                "download.default_directory": current_directory,
+                "download.directory_upgrade": True,
+                "download.prompt_for_download": False,
+                "safebrowsing.enabled": True,
+            },
+        )
+        options.add_argument("--headless")
         options.add_argument("window-size=1920,1080")
-        options.add_argument('--disable-gpu')
+        options.add_argument("--disable-gpu")
 
-        s = Service(os.environ['CHROMEDRIVER_EXE_PATH'])
+        s = Service(os.environ["CHROMEDRIVER_EXE_PATH"])
 
         driver = Chrome(service=s, chrome_options=options)
         wait = WebDriverWait(driver, 30)
@@ -69,16 +72,22 @@ def get_check(check_photo_file_name: str):
         driver.get("https://proverkacheka.com/")
         driver.set_window_size(1920, 1080)
 
-        photo = wait.until(EC.presence_of_element_located(
-            (By.XPATH, "/html/body/div/div[2]/div[1]/div[4]/div[2]/ul/li[3]/a")))
-        assert (photo is not None)
+        photo = wait.until(
+            EC.presence_of_element_located((By.XPATH, "/html/body/div/div[2]/div[1]/div[4]/div[2]/ul/li[3]/a"))
+        )
+        assert photo is not None
 
         photo.click()
 
-        select_file = wait.until(EC.presence_of_element_located(
-            (By.XPATH,
-             "/html/body/div/div[2]/div[1]/div[4]/div[2]/div[1]/div[2]/div/div/div/form/div[1]/div/span[1]/input")
-        ))
+        select_file = wait.until(
+            EC.presence_of_element_located(
+                (
+                    By.XPATH,
+                    "/html/body/div/div[2]/div[1]/div[4]/div[2]/div[1]"
+                    "/div[2]/div/div/div/form/div[1]/div/span[1]/input",
+                )
+            )
+        )
 
         select_file.send_keys(check_photo_file_name)
 
@@ -86,20 +95,25 @@ def get_check(check_photo_file_name: str):
 
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
-        save_file = wait.until(EC.element_to_be_clickable(
-            (By.XPATH, "/html/body/div/div[2]/div[1]/div[4]/div[2]/div[3]/button")
-        ))
+        save_file = wait.until(
+            EC.element_to_be_clickable((By.XPATH, "/html/body/div/div[2]/div[1]/div[4]/div[2]/div[3]/button"))
+        )
         save_file.click()
 
-        save_json = wait.until(EC.element_to_be_clickable(
-            (By.XPATH, "/html/body/div/div[2]/div[1]/div[4]/div[2]/div[3]/ul/li[2]/a")
-        ))
+        save_json = wait.until(
+            EC.element_to_be_clickable(
+                (
+                    By.XPATH,
+                    "/html/body/div/div[2]/div[1]/div[4]/div[2]/div[3]/ul/li[2]/a",
+                )
+            )
+        )
         save_json.click()
 
-        wait_file('check.json')
+        wait_file("check.json")
     except Exception:
-        file_name, _ = check_photo_file_name.split('.')
-        with open(f"{file_name}.txt", 'w+') as error_file:
+        file_name, _ = check_photo_file_name.split(".")
+        with open(f"{file_name}.txt", "w+") as error_file:
             error_file.write(format_exc())
 
         if driver:

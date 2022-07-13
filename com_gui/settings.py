@@ -15,7 +15,14 @@ from com_gui.utils.modal_dialog import ModalDialogSettings
 from com_gui.utils.settings_utils import ByteArraySetting
 
 settings_file_name = os.path.normpath(
-    os.path.join(os.path.expanduser('~'), 'Documents', 'ShnaiderPavel', 'CommunalPayments', 'settings.json'))
+    os.path.join(
+        os.path.expanduser("~"),
+        "Documents",
+        "ShnaiderPavel",
+        "CommunalPayments",
+        "settings.json",
+    )
+)
 
 
 @dataclass()
@@ -32,8 +39,8 @@ class MainWindowSettings:
 
 @dataclass()
 class GoogleSpreadSheetSettings:
-    credential_file: str = ''
-    spread_sheet_id: str = ''
+    credential_file: str = ""
+    spread_sheet_id: str = ""
 
 
 @dataclass()
@@ -48,7 +55,7 @@ class Settings:
             dict_data = asdict(self)
             json_data = json.dumps(dict_data, indent=4)
             os.makedirs(os.path.dirname(settings_file_name), exist_ok=True)
-            with open(settings_file_name, 'w+') as settings_file_:
+            with open(settings_file_name, "w+") as settings_file_:
                 settings_file_.write(json_data)
 
     @contextmanager
@@ -69,7 +76,7 @@ class Settings:
 
         if os.path.isfile(settings_file_name):
             try:
-                with open(settings_file_name, 'r') as settings_file:
+                with open(settings_file_name, "r") as settings_file:
                     json_data = settings_file.read()
                     data = json.loads(json_data)
                     return from_dict(Settings, data)

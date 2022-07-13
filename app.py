@@ -18,15 +18,15 @@ load_dotenv()
 
 def process_expense(json_file_name: str) -> Check:
     check = Check()
-    with open(json_file_name, 'r', encoding='utf-8') as file_:
+    with open(json_file_name, "r", encoding="utf-8") as file_:
         file_data = file_.read()
 
         json_data = json.loads(file_data)
 
         # Достаём место продажи
-        if 'retailPlace' not in json_data:
+        if "retailPlace" not in json_data:
             raise KeyError(f"В файле '{json_file_name}' нет записи о продавце")
-        retailPlace = json_data['retailPlace']
+        retailPlace = json_data["retailPlace"]
 
         # Достаём дату продажи
         if "dateTime" not in json_data:
@@ -46,25 +46,25 @@ def process_expense(json_file_name: str) -> Check:
         check.date = page_
 
         # Достаём список покупок
-        if 'items' not in json_data:
+        if "items" not in json_data:
             raise KeyError(f"В файле '{json_file_name}' нет списка покупок")
-        items = json_data['items']
+        items = json_data["items"]
 
         for item in items:
             # Достаём название покупки
-            if 'name' not in item:
+            if "name" not in item:
                 raise KeyError("В покупке отсутствует имя")
-            name = item['name']
+            name = item["name"]
 
             # Достаём количество покупок или вес или т д
-            if 'quantity' not in item:
+            if "quantity" not in item:
                 raise KeyError("В покупке отсутствует количество")
-            quantity = str(item['quantity']).replace('.', ',')
+            quantity = str(item["quantity"]).replace(".", ",")
 
             # Достаём цену, одну единицы покупки, сумма посчитается таблицей
-            if 'price' not in item:
+            if "price" not in item:
                 raise KeyError("В покупке отсутствует цена")
-            price = str(item['price'] / 100).replace('.', ',')
+            price = str(item["price"] / 100).replace(".", ",")
 
             check.purchases.append(Purchase(name, quantity, price, retailPlace, today_))
 
@@ -86,20 +86,26 @@ def find_file(dir_: str, file_name: str) -> Optional[str]:
 
 
 def main():
-    os.makedirs('download', exist_ok=True)
+    os.makedirs("download", exist_ok=True)
 
-    file_ = find_file('download', 'check.json')
+    file_ = find_file("download", "check.json")
     if file_ is None:
         logger.error("File check.json not found")
 
     check = process_expense(file_)
 
-    Purchase.save(check.date, check.purchases, purchase_config, CREDENTIAL_FILE, os.environ['MONEY_SPREEDSHEET'])
+    Purchase.save(
+        check.date,
+        check.purchases,
+        purchase_config,
+        CREDENTIAL_FILE,
+        os.environ["MONEY_SPREEDSHEET"],
+    )
 
     os.remove(file_)
 
-    logger.info('Done')
+    logger.info("Done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
