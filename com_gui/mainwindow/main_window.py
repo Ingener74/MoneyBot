@@ -60,9 +60,11 @@ class MainWindow(QMainWindow):
                 QMessageBox.warning(self, "Error", "Set credential file in settings")
             if not self.__check.goods:
                 QMessageBox.warning(self, "Error", "Check empty")
-            self.__check.save_to_google_sheet(settings.google_spread_sheet.credential_file,
-                                              settings.google_spread_sheet.spread_sheet_id,
-                                              products_config)
+            self.__check.save_to_google_sheet(
+                settings.google_spread_sheet.credential_file,
+                settings.google_spread_sheet.spread_sheet_id,
+                products_config,
+            )
             QMessageBox.information(self, "Успешно", "Чек сохранён!")
 
         self.ui.pushButtonSend.clicked.connect(send)
