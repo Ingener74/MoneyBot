@@ -1,6 +1,5 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import json
 import os
 import shutil
 from datetime import datetime
@@ -12,11 +11,10 @@ from aiogram.types.message import ContentType
 from dotenv import load_dotenv
 from loguru import logger
 
-from Constants import purchase_config, CREDENTIAL_FILE
-from Json import reformat_json
-from Purchase.Purchase import Purchase
-from app import process_expense
+from json_utils import reformat_json
+from constants import CREDENTIAL_FILE, products_config
 from get_check import get_check
+from money.product import Products
 
 logger.add("money_bot.log", rotation="10 MB")
 
@@ -53,30 +51,23 @@ async def echo(message: types.Message):
         destination = destination.replace("\\", "/")
 
         if destination.endswith(".json"):
-            json_data = json.load(open(destination, "r"))
-            json_data = json_data[0]["ticket"]["document"]["receipt"]
-            json.dump(json_data, open("download/check.json", "w"))
+            json_file_name = destination
         else:
             get_check(destination)
+            json_file_name = "download/check.json"
 
         logger.info("Чек получен")
         await message.answer("Чек получен")
 
-        check = process_expense("download/check.json")
+        products = Products.from_json(json_file_name)
 
-        shutil.copy("download/check.json", destination + ".orig.json")
-        reformat_json("download/check.json", destination + ".reformat.json")
+        shutil.copy(json_file_name, destination + ".orig.json")
+        reformat_json(json_file_name, destination + ".reformat.json")
 
-        logger.info(f"Чек обработан\n{check.purchase_list}")
-        await message.answer(f"Чек обработан\n{check.purchase_list}")
+        logger.info(f"Чек обработан\n{products.numbered_list_of_names}")
+        await message.answer(f"Чек обработан\n{products.numbered_list_of_names}")
 
-        Purchase.save(
-            check.date,
-            check.purchases,
-            purchase_config,
-            CREDENTIAL_FILE,
-            os.environ["MONEY_SPREEDSHEET"],
-        )
+        products.save_to_google_sheet(CREDENTIAL_FILE, os.environ["MONEY_SPREEDSHEET"], products_config)
 
         logger.info("Чек сохранён")
         await message.answer("Чек сохранён")

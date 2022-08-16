@@ -9,7 +9,7 @@ from typing import Optional
 from dotenv import load_dotenv
 from loguru import logger
 
-from Constants import CREDENTIAL_FILE, purchase_config
+from constants import CREDENTIAL_FILE, purchase_config
 from Purchase.Check import Check
 from Purchase.Purchase import Purchase
 

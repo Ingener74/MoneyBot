@@ -10,6 +10,7 @@ class PurchaseConfig:
     price_column: str
     seller_column: str
     today_column: str
+    category_column: str
 
     # Номер столбца в котором записаны названия покупок, по ней мы определяем следующую пустую строку
     current_purchases_column: int

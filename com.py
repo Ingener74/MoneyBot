@@ -7,7 +7,7 @@ from loguru import logger
 
 from Purchase.Check import Check
 from app import find_file
-from Constants import purchase_config, CREDENTIAL_FILE
+from constants import purchase_config, CREDENTIAL_FILE
 from Purchase.Purchase import Purchase
 
 

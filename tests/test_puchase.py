@@ -29,7 +29,7 @@ class TestPurchase:
         Purchase.save(
             "01.2022",
             purchases,
-            PurchaseConfig("A", "B", "C", "D", "E", 0),
+            PurchaseConfig("A", "B", "C", "D", "E", "F", 0),
             "creds.json",
             "very-long-spreadsheet-id",
         )
@@ -56,7 +56,7 @@ class TestPurchase:
             Purchase.save(
                 "01.2022",
                 [],
-                PurchaseConfig("A", "B", "C", "D", "E", 0),
+                PurchaseConfig("A", "B", "C", "D", "E", "F", 0),
                 "creds.json",
                 "very-long-spreadsheet-id",
             )
