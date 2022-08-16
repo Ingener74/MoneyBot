@@ -2,20 +2,20 @@
 # -*- coding: utf-8 -*-
 from PySide6.QtGui import QStandardItemModel, QStandardItem
 
-from Purchase.Check import Check
+from money.product import Products
 
 
-def create_model(check: Check):
+def create_model(check: Products):
     model = QStandardItemModel()
     model.setHorizontalHeaderLabels(["Название", "Кол-во", "Цена", "Продавец", "Дата"])
-    for purchase in check.purchases:
+    for purchase in check.goods:
         model.appendRow(
             [
                 QStandardItem(purchase.name),
-                QStandardItem(purchase.quantity),
-                QStandardItem(purchase.price),
+                QStandardItem(purchase.quantity_),
+                QStandardItem(purchase.price_),
                 QStandardItem(purchase.seller),
-                QStandardItem(purchase.today_),
+                QStandardItem(purchase.date_of_purchase_),
             ]
         )
 

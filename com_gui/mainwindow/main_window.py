@@ -12,10 +12,8 @@ from com_gui.model.purchase_model import create_model
 from com_gui.res.ui_main_window import Ui_MainWindow
 from com_gui.settings import settings
 
-from Constants import purchase_config
-from Purchase.Check import Check
-from Purchase.Purchase import Purchase
-from com import collect_purchases_from_file
+from constants import products_config
+from money.product import Products
 
 
 class MainWindow(QMainWindow):
@@ -27,7 +25,7 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        self.__check: Optional[Check] = None
+        self.__check: Optional[Products] = None
 
         self.init_table_view()
         self.init_open_button()
@@ -60,15 +58,11 @@ class MainWindow(QMainWindow):
                 QMessageBox.warning(self, "Error", "Set spread sheet id in settings")
             if settings.google_spread_sheet.credential_file == "":
                 QMessageBox.warning(self, "Error", "Set credential file in settings")
-            if not self.__check.purchases:
+            if not self.__check.goods:
                 QMessageBox.warning(self, "Error", "Check empty")
-            Purchase.save(
-                self.__check.date,
-                self.__check.purchases,
-                purchase_config,
-                settings.google_spread_sheet.credential_file,
-                settings.google_spread_sheet.spread_sheet_id,
-            )
+            self.__check.save_to_google_sheet(settings.google_spread_sheet.credential_file,
+                                              settings.google_spread_sheet.spread_sheet_id,
+                                              products_config)
             QMessageBox.information(self, "Успешно", "Чек сохранён!")
 
         self.ui.pushButtonSend.clicked.connect(send)
@@ -81,7 +75,7 @@ class MainWindow(QMainWindow):
                 if not file_name:
                     return
 
-                self.__check = collect_purchases_from_file(file_name)
+                self.__check = Products.from_communal_payments(file_name)
                 self.ui.pushButtonSend.setEnabled(True)
                 model = create_model(self.__check)
                 self.ui.tableViewPurchases.setModel(model)
@@ -91,7 +85,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonOpen.clicked.connect(open_file)
 
     def init_table_view(self):
-        model = create_model(Check())
+        model = create_model(Products())
         self.ui.tableViewPurchases.setModel(model)
 
         self.ui.tableViewPurchases.horizontalHeader().restoreState(settings.main_window.table.state.restore())
