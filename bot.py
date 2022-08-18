@@ -3,6 +3,7 @@
 import os
 import shutil
 from datetime import datetime
+from pathlib import Path
 from time import perf_counter
 from traceback import format_exc
 
@@ -13,7 +14,7 @@ from loguru import logger
 
 from json_utils import reformat_json
 from constants import CREDENTIAL_FILE, products_config
-from get_check import get_check
+from money.check_extractor import get_check, Status
 from money.product import Products
 
 logger.add("money_bot.log", rotation="10 MB")
@@ -26,6 +27,25 @@ dp = Dispatcher(bot)
 @dp.message_handler(commands=["start"])
 async def send_welcome(message: types.Message):
     await message.reply("Hello")
+
+
+def process_check(original_check_file: Path) -> str:
+    if original_check_file.suffix == ".json":
+        json_file_name = original_check_file
+    else:
+        json_file_name = original_check_file.parent / (original_check_file.stem + '.json')
+        result = get_check(os.environ['PROVERKA_CHECKA_TOKEN'], original_check_file, json_file_name)
+        if result.status != Status.Success:
+            return f"{result.description}\n{result.text}"
+
+    products = Products.from_json(str(json_file_name))
+
+    shutil.copy(json_file_name, original_check_file.parent / (original_check_file.stem + ".orig.json"))
+    reformat_json(json_file_name, original_check_file.parent / (original_check_file.stem + ".reformat.json"))
+
+    products.save_to_google_sheet(CREDENTIAL_FILE, os.environ["MONEY_SPREEDSHEET"], products_config)
+
+    return products.numbered_list_of_names
 
 
 @dp.message_handler(commands=[""])
@@ -50,27 +70,10 @@ async def echo(message: types.Message):
         destination = str(dest.name)
         destination = destination.replace("\\", "/")
 
-        if destination.endswith(".json"):
-            json_file_name = destination
-        else:
-            get_check(destination)
-            json_file_name = "download/check.json"
+        process_result = process_check(Path(destination))
 
-        logger.info("Чек получен")
-        await message.answer("Чек получен")
-
-        products = Products.from_json(json_file_name)
-
-        shutil.copy(json_file_name, destination + ".orig.json")
-        reformat_json(json_file_name, destination + ".reformat.json")
-
-        logger.info(f"Чек обработан\n{products.numbered_list_of_names}")
-        await message.answer(f"Чек обработан\n{products.numbered_list_of_names}")
-
-        products.save_to_google_sheet(CREDENTIAL_FILE, os.environ["MONEY_SPREEDSHEET"], products_config)
-
-        logger.info("Чек сохранён")
-        await message.answer("Чек сохранён")
+        logger.info(process_result)
+        await message.answer(process_result)
         successful = True
     except Exception:
         await message.answer(f"Произошла ошибка: {format_exc()}")

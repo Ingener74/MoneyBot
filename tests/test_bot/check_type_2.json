@@ -1,0 +1,100 @@
+[
+  {
+    "status": 2,
+    "seller": {
+      "name": "АКЦИОНЕРНОЕ ОБЩЕСТВО \"ТАНДЕР\"",
+      "inn": "2310031475",
+      "logo": "\/static\/logo\/23\/2310031475.png"
+    },
+    "operation": {
+      "date": 677655900,
+      "type": 1,
+      "sum": 242488
+    },
+    "id": "62b447e4f5913801647cd0e6",
+    "organization": {
+      "name": "АКЦИОНЕРНОЕ ОБЩЕСТВО \"ТАНДЕР\"",
+      "inn": "2310031475",
+      "logo": "\/static\/logo\/23\/2310031475.png"
+    },
+    "qr": "t=20220623T1045&s=2424.88&fn=9960440302297102&i=5308&fp=3383517748&n=1",
+    "query": {
+      "date": "2022-06-23T10:45",
+      "documentId": 5308,
+      "fsId": "9960440302297102",
+      "fiscalSign": "3383517748",
+      "operationType": 1,
+      "sum": 242488
+    },
+    "ticket": {
+      "document": {
+        "receipt": {
+          "retailPlace": "Магазин  Магнит  Шум",
+          "totalSum": 242488,
+          "operator": "Старший продавец Литвинова",
+          "userInn": "2310031475  ",
+          "items": [
+            {
+              "quantity": 1,
+              "productType": 1,
+              "nds": 2,
+              "price": 169900,
+              "paymentType": 4,
+              "name": "PAMPERS Premium Care Трусики-Подгуз 4 9-15кг ",
+              "sum": 169900
+            },
+            {
+              "quantity": 1,
+              "productType": 1,
+              "nds": 1,
+              "price": 22599,
+              "paymentType": 4,
+              "name": "MATTEL BARBIE Бальзам для губ 2,5 гр:8\/288",
+              "sum": 22599
+            },
+            {
+              "quantity": 1,
+              "productType": 1,
+              "nds": 1,
+              "price": 42999,
+              "paymentType": 4,
+              "name": "Набор бусин в асс-те (СИ):6\/72",
+              "sum": 42999
+            },
+            {
+              "quantity": 1,
+              "productType": 1,
+              "nds": 1,
+              "price": 6990,
+              "paymentType": 4,
+              "name": "Пакет подарочный бумажный AB (МакПейпер)",
+              "sum": 6990
+            }
+          ],
+          "code": 3,
+          "ecashTotalSum": 242488,
+          "requestNumber": 31,
+          "fiscalDriveNumber": "9960440302297102",
+          "shiftNumber": 58,
+          "kktRegId": "0005228674021927    ",
+          "provisionSum": 0,
+          "nds18": 12099,
+          "dateTime": 1655970300,
+          "retailPlaceAddress": "641150, Курганская обл, Целинный р-н, Целинное с, Советская ул, дом № 62а",
+          "fiscalSign": 3383517748,
+          "user": "АКЦИОНЕРНОЕ ОБЩЕСТВО \"ТАНДЕР\"",
+          "prepaidSum": 0,
+          "cashTotalSum": 0,
+          "fiscalDocumentNumber": 5308,
+          "operationType": 1,
+          "fiscalDocumentFormatVer": 4,
+          "creditSum": 0,
+          "taxationType": 1,
+          "nds10": 15445
+        }
+      }
+    },
+    "kind": "kkt",
+    "createdAt": 677674852
+  }
+]
