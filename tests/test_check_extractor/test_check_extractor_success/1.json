@@ -1,0 +1,121 @@
+{
+    "code": 3,
+    "user": "ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \"АГРОТОРГ\"",
+    "items": [
+        {
+            "nds": 2,
+            "sum": 19439,
+            "name": "Дск Яблоко красное 1кг",
+            "price": 15999,
+            "quantity": 1.215,
+            "paymentType": 4,
+            "productType": 1,
+            "itemsQuantityMeasure": 11
+        },
+        {
+            "nds": 2,
+            "sum": 7999,
+            "name": "ЧЕБАРКУЛЬ Мол.ОТБ.3,8% м/у 1л",
+            "price": 7999,
+            "quantity": 1,
+            "paymentType": 4,
+            "productType": 1,
+            "productCodeNew": {
+                "ean13": {
+                    "gtin": "4607036340658",
+                    "sernum": "",
+                    "productIdType": 3,
+                    "rawProductCode": "4607036340658"
+                }
+            },
+            "itemsQuantityMeasure": 0
+        },
+        {
+            "nds": 2,
+            "sum": 7999,
+            "name": "ЧЕБАРКУЛЬ Мол.ОТБ.3,8% м/у 1л",
+            "price": 7999,
+            "quantity": 1,
+            "paymentType": 4,
+            "productType": 1,
+            "productCodeNew": {
+                "ean13": {
+                    "gtin": "4607036340658",
+                    "sernum": "",
+                    "productIdType": 3,
+                    "rawProductCode": "4607036340658"
+                }
+            },
+            "itemsQuantityMeasure": 0
+        },
+        {
+            "nds": 2,
+            "sum": 5999,
+            "name": "*ШАР.Ваф.ВЕН.со взб.сл/виш.150г",
+            "price": 5999,
+            "quantity": 1,
+            "paymentType": 4,
+            "productType": 1,
+            "productCodeNew": {
+                "ean13": {
+                    "gtin": "4604386012273",
+                    "sernum": "",
+                    "productIdType": 3,
+                    "rawProductCode": "4604386012273"
+                }
+            },
+            "itemsQuantityMeasure": 0
+        },
+        {
+            "nds": 1,
+            "sum": 9499,
+            "name": "Вафли ЯШКИНСКИЕ ореховые   300г",
+            "price": 9499,
+            "quantity": 1,
+            "paymentType": 4,
+            "productType": 1,
+            "productCodeNew": {
+                "ean13": {
+                    "gtin": "4607015232646",
+                    "sernum": "",
+                    "productIdType": 3,
+                    "rawProductCode": "4607015232646"
+                }
+            },
+            "itemsQuantityMeasure": 0
+        }
+    ],
+    "nds10": 3766,
+    "nds18": 1583,
+    "region": "74",
+    "userInn": "7825706086  ",
+    "dateTime": "2022-08-16T19:11:00",
+    "kktRegId": "0004000518016307    ",
+    "metadata": {
+        "id": 4373135767659163393,
+        "ofdId": "ofd22",
+        "address": "454100,Россия,Челябинская область,Челябинский г.о.,Курчатовский г.п.,Челябинск г,,Новоградский пр-кт,,д. 58,,,,",
+        "subtype": "receipt",
+        "receiveDate": "2022-08-16T17:13:18Z"
+    },
+    "operator": "Котова Анна Романовна, Продавец-каccир",
+    "totalSum": 50935,
+    "creditSum": 0,
+    "numberKkt": "00105702181010",
+    "fiscalSign": 147824925,
+    "prepaidSum": 0,
+    "retailPlace": "385H; 18300 - Пятерочка;",
+    "shiftNumber": 302,
+    "cashTotalSum": 0,
+    "provisionSum": 0,
+    "ecashTotalSum": 50935,
+    "operationType": 1,
+    "redefine_mask": 2,
+    "requestNumber": 408,
+    "fiscalDriveNumber": "9960440301310853",
+    "messageFiscalSign": 9.29735071111385e+18,
+    "retailPlaceAddress": "454000, 74, г.Челябинск, р-н Курчатовский, пр-кт Новоградский, 58;",
+    "appliedTaxationType": 1,
+    "fiscalDocumentNumber": 77916,
+    "fiscalDocumentFormatVer": 4
+}

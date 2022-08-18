@@ -33,8 +33,8 @@ def process_check(original_check_file: Path) -> str:
     if original_check_file.suffix == ".json":
         json_file_name = original_check_file
     else:
-        json_file_name = original_check_file.parent / (original_check_file.stem + '.json')
-        result = get_check(os.environ['PROVERKA_CHECKA_TOKEN'], original_check_file, json_file_name)
+        json_file_name = original_check_file.parent / (original_check_file.stem + ".json")
+        result = get_check(os.environ["PROVERKA_CHECKA_TOKEN"], original_check_file, json_file_name)
         if result.status != Status.Success:
             return f"{result.description}\n{result.text}"
 
