@@ -3,7 +3,7 @@ from unittest.mock import call, MagicMock, mock_open, ANY
 
 import pytest
 
-from bot.__main__ import process_check
+from bot.processor import process_check
 from bot.settings import Settings, ExtractMethod
 from bot.utils import write_execution_time
 from money.product import ProductConfig
